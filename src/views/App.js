@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap'
 import URLFields from '../components/URLFields';
 import UiFeedback from '../components/UiFeedback';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+//Switch, Route, Link
 
 class App extends Component {
   render() {

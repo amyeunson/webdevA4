@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const urls = require('./urls');
+const retrieve = require('./retrieve');
+var cors = require('cors');
+
 
 const mongoose = require('mongoose');
 //const cookieParse = require('cookie-parser')
@@ -16,14 +19,11 @@ const db = mongoose.connection;
 // This will create the connection, and throw an error if it doesn't work
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
 
-//app.use(cookieParse());
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/', retrieve);
 app.use('/api', urls);
-
-// Note that it is common practice got backend APIs in Node to start with the api prefix
-// to distinguish them from frontend routes
-// app.use('/api/urls', urls);
 
 app.listen(3001, function () {
     console.log('Starting server');

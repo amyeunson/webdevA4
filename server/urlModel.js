@@ -8,16 +8,15 @@ function insertURL(url) {
 }
 
 function updateURL(url, newURL) {
-    //idk yet
+    return urlModel.updateOne({ urlID: url }, { $set: { urlID: newURL.urlID, longUrl: newURL.longUrl } })
 }
 
 function findURL(id) {
-    // idk yet
-    return urlModel.find({ urlID: id }).exec();
+    return urlModel.findOne({ urlID: id }).exec();
 }
 
-function deleteURL(url) {
-    // idk yet
+function deleteURL(id) {
+    return urlModel.deleteOne({ urlID: id }).exec();
 }
 
 module.exports = { insertURL, updateURL, findURL, deleteURL };
