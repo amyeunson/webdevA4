@@ -1,9 +1,9 @@
 const express = require('express');
-
 const app = express();
+const urls = require('./urls');
 
 const mongoose = require('mongoose');
-const cookieParse = require('cookie-parser')
+//const cookieParse = require('cookie-parser')
 
 // This is the default address for MongoDB.
 // Make sure MongoDB is running!
@@ -16,9 +16,10 @@ const db = mongoose.connection;
 // This will create the connection, and throw an error if it doesn't work
 db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
 
-app.use(cookieParse());
+//app.use(cookieParse());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', urls);
 
 // Note that it is common practice got backend APIs in Node to start with the api prefix
 // to distinguish them from frontend routes
