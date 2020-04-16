@@ -9,7 +9,7 @@ router.get('/url/:id', async (req, res) => {
         if (url) {
             return res.redirect(url.longUrl);
         } else {
-            return res.status(404).json('No url found');
+            return res.redirect('http://localhost:3000/error');
         }
     } catch (err) {
         res.status(500).json('Server error');

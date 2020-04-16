@@ -3,6 +3,7 @@ import { Container } from 'reactstrap'
 import URLFields from '../components/URLFields';
 import UiFeedback from '../components/UiFeedback';
 import EditURLFields from '../components/EditURLFields';
+import ErrorPage from '../components/ErrorPage';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
@@ -16,6 +17,10 @@ class App extends Component {
 
             <Route path='/url/:id/edit'>
               <EditURLFields />
+            </Route>
+
+            <Route exact path="/error">
+              <ErrorPage />
             </Route>
 
             <Route exact path="/">

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const urlAccessor = require('./urlModel');
+const validUrl = require('valid-url');
 
 // Test server.
 router.get('/', (req, res) => {
@@ -12,10 +13,9 @@ router.post('/:id', async (req, res) => {
     try {
         const url = await urlAccessor.findURL(req.params.id);
         if (url) {
-            return res.status(400).json('url alias already exsists');
+            return res.status(400).send('url alias already exsists');
         } else {
             const newUrl = req.body;
-            console.log(newUrl)
             return urlAccessor.insertURL(newUrl)
                 .then((response) => res.status(200).send(newUrl),
                     (error) => res.status(404).send(`Error inserting url:${error}`))
@@ -43,12 +43,21 @@ router.put('/url/:id/edit', async (req, res) => {
                 .then((response) => res.status(200).send(response),
                     (error) => res.status(400).send(`Error updating url:${error}`))
         } else {
-            return res.status(404).json('No url found');
+            return res.status(404).send('No url found');
         }
     } catch (err) {
-        res.status(500).json('Server error');
+        res.status(500).send('Server error');
     }
 });
+
+function isValid(url) {
+    console.log(url);
+    if (validUrl.isUri(url)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 module.exports = router;

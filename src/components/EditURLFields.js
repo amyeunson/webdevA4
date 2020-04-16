@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap'
-import { createNewURL, retrieveLongURL, deleteURL, updateURL, clearError } from '../redux/actions';
+import { deleteURL, updateURL, clearError, clearSuccess, clearURL } from '../redux/actions';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../constants';
 import { v4 as uuidv4 } from 'uuid';
@@ -24,20 +24,16 @@ class EditURLFields extends Component {
             [event.target.name]: event.target.value,
         });
         this.props.clearError();
+        this.props.clearSuccess();
     }
 
     handleUpdate(event) {
         event.preventDefault();
-        console.log("Handle Update");
         let strippedBrand = this.state.urlID.replace(/ /g, "")
-        console.log("Update branded link: ", strippedBrand);
-        //this.props.updateURL()
-        //talk to DB
     }
 
     handleDelete(event) {
         event.preventDefault();
-        console.log("Handle Delete");
         this.props.deleteURL(this.state.urlID);
     }
 
@@ -57,7 +53,8 @@ class EditURLFields extends Component {
                     </FormGroup>
                     <Button type="submit" className="m-3" onClick={this.handleUpdate}>Update</Button>
                     <Button type="submit" className="m-3" onClick={this.handleDelete}>Delete</Button>
-                    <h5 className="mt-5">Your new Url: TBD this will be a link that will open in new tab</h5>
+                    <h5 className="mt-5">Your new Url:</h5>
+                    <p>{this.props.shortenedUrl}</p>
                 </Form>
                 <Button onClick={this.handleGet}>Get</Button>
             </div>
@@ -68,8 +65,16 @@ class EditURLFields extends Component {
 function mapDispatchToProps(dispatch, props) {
     return {
         deleteURL: (shortUrl) => dispatch(deleteURL(shortUrl)),
-        updateURL: (id, newUrl) => dispatch(updateURL(id, newUrl))
+        updateURL: (id, newUrl) => dispatch(updateURL(id, newUrl)),
+        clearError: () => dispatch(clearError()),
+        clearSuccess: () => dispatch(clearSuccess()),
+        clearURL: () => dispatch(clearURL())
     }
 }
 
-export default connect(null, mapDispatchToProps)(EditURLFields);
+let mapStateToProps = state => {
+    let shortenedUrl = state.url;
+    return { shortenedUrl };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditURLFields);

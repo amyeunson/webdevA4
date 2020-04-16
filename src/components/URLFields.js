@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap'
-import { createNewURL, retrieveLongURL, clearError, clearURL } from '../redux/actions';
+import { createNewURL, clearSuccess, clearError, clearURL } from '../redux/actions';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../constants';
 import { v4 as uuidv4 } from 'uuid';
@@ -22,6 +22,7 @@ class URLFields extends Component {
             [event.target.name]: event.target.value,
         });
         this.props.clearError();
+        this.props.clearSuccess();
         this.props.clearURL();
     }
 
@@ -63,6 +64,7 @@ function mapDispatchToProps(dispatch, props) {
     return {
         createURL: (url) => dispatch(createNewURL(url)),
         clearError: () => dispatch(clearError()),
+        clearSuccess: () => dispatch(clearSuccess()),
         clearURL: () => dispatch(clearURL())
     }
 }
