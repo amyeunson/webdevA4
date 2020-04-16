@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Form, FormGroup, Input, Label, Button } from 'reactstrap'
-import { createNewURL, retrieveLongURL, clearError, clearURL } from '../redux/actions';
+import { createNewURL, retrieveLongURL, deleteURL, updateURL, clearError } from '../redux/actions';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../constants';
 import { v4 as uuidv4 } from 'uuid';
 
-class URLFields extends Component {
+class EditURLFields extends Component {
 
     constructor(props) {
         super(props);
@@ -14,7 +14,9 @@ class URLFields extends Component {
             longURL: ""
         }
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+
     }
 
     handleChange(event) {
@@ -22,20 +24,23 @@ class URLFields extends Component {
             [event.target.name]: event.target.value,
         });
         this.props.clearError();
-        this.props.clearURL();
     }
 
-    handleSubmit(event) {
+    handleUpdate(event) {
         event.preventDefault();
+        console.log("Handle Update");
         let strippedBrand = this.state.urlID.replace(/ /g, "")
-        if (!strippedBrand) {
-            let ID = uuidv4();
-            this.props.createURL({ "urlID": ID, "longUrl": this.state.longURL, "shortUrl": BASE_URL + "url/" + ID, "custom": false });
-
-        } else {
-            this.props.createURL({ "urlID": strippedBrand, "longUrl": this.state.longURL, "shortUrl": BASE_URL + "url/" + strippedBrand, "custom": true });
-        }
+        console.log("Update branded link: ", strippedBrand);
+        //this.props.updateURL()
+        //talk to DB
     }
+
+    handleDelete(event) {
+        event.preventDefault();
+        console.log("Handle Delete");
+        this.props.deleteURL(this.state.urlID);
+    }
+
 
     render() {
         return (
@@ -50,10 +55,11 @@ class URLFields extends Component {
                         {/* Add tooltip that spaces will be stripped */}
                         <Input name="urlID" type="textbox" onChange={this.handleChange} value={this.state.customBrand}></Input>
                     </FormGroup>
-                    <Button type="submit" className="m-3" onClick={this.handleSubmit}>Create</Button>
-                    <h5 className="mt-5">Your new Url:</h5>
-                    <p>{this.props.shortenedUrl}</p>
+                    <Button type="submit" className="m-3" onClick={this.handleUpdate}>Update</Button>
+                    <Button type="submit" className="m-3" onClick={this.handleDelete}>Delete</Button>
+                    <h5 className="mt-5">Your new Url: TBD this will be a link that will open in new tab</h5>
                 </Form>
+                <Button onClick={this.handleGet}>Get</Button>
             </div>
         )
     }
@@ -61,15 +67,9 @@ class URLFields extends Component {
 
 function mapDispatchToProps(dispatch, props) {
     return {
-        createURL: (url) => dispatch(createNewURL(url)),
-        clearError: () => dispatch(clearError()),
-        clearURL: () => dispatch(clearURL())
+        deleteURL: (shortUrl) => dispatch(deleteURL(shortUrl)),
+        updateURL: (id, newUrl) => dispatch(updateURL(id, newUrl))
     }
 }
 
-let mapStateToProps = state => {
-    let shortenedUrl = state.url;
-    return { shortenedUrl };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(URLFields);
+export default connect(null, mapDispatchToProps)(EditURLFields);
