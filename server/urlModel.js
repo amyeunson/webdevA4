@@ -7,16 +7,20 @@ function insertURL(url) {
     return urlModel.create(url);
 }
 
-function updateURL(url, newURL) {
-    return urlModel.updateOne({ urlID: url }, { $set: { urlID: newURL.urlID, longUrl: newURL.longUrl } })
+function updateURL(id, newURL) {
+    return urlModel.updateOne({ urlID: id }, { $set: { longUrl: newURL.longUrl } }).exec();
 }
 
 function findURL(id) {
     return urlModel.findOne({ urlID: id }).exec();
 }
 
+function findCustomURL(id) {
+    return urlModel.findOne({ urlID: id, custom: true }).exec();
+}
+
 function deleteURL(id) {
     return urlModel.deleteOne({ urlID: id }).exec();
 }
 
-module.exports = { insertURL, updateURL, findURL, deleteURL };
+module.exports = { insertURL, updateURL, findURL, findCustomURL, deleteURL };

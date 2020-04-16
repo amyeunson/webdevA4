@@ -12,7 +12,6 @@ let mapStateToProps = state => {
 class UiFeedback extends Component {
 
     render() {
-        console.log(this.props.localState)
         let showError = this.props.feedback.error
         let showSuccess = this.props.feedback.success
         return (
