@@ -75,7 +75,7 @@ export function updateURL(path, url) {
     } else {
         return function (dispatch) {
             return Axios.put('/api/' + path, url)
-                .then(response => dispatch(displayUpdatedURL("http://localhost:3000/url/" + response.data)),
+                .then(response => dispatch(displayUpdatedURL("https://ae-urlshortener.herokuapp.com/url/" + response.data)),
                     () => dispatch(UIError("You can only edit or delete custom shortened URLs")));
         }
     }
