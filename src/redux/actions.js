@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { ERROR, CLEAR_ERROR, SHOW_URL, SHOW_UPDATED_URL, CLEAR_SHOWN_URL, CLEAR_SUCCESS, SUCCESS } from './actionTypes';
+import { ERROR, CLEAR_ERROR, SHOW_URL, SHOW_UPDATED_URL, CLEAR_SHOWN_URL, CLEAR_SUCCESS, SUCCESS, UPDATE_URL } from './actionTypes';
 const validUrl = require('valid-url');
 
 export const UIError = (msg) => {
@@ -42,6 +42,13 @@ export const displayUpdatedURL = (url) => {
     }
 }
 
+export const redirectURL = (url) => {
+    return {
+        type: UPDATE_URL,
+        url: url,
+    }
+}
+
 
 export const clearURL = () => {
     return {
@@ -52,8 +59,9 @@ export const clearURL = () => {
 export function retrieveLongURL(id) {
     return function (dispatch) {
         return Axios.get('/url/' + id)
-            .then(() => dispatch(UISuccess()),
-                () => dispatch(UIError("No URL found")));
+            .then((response) => dispatch(redirectURL(response)),
+                () => dispatch(UIError("No URL found")))
+            .then(() => dispatch(UISuccess()));
     }
 }
 
@@ -75,7 +83,7 @@ export function updateURL(path, url) {
     } else {
         return function (dispatch) {
             return Axios.put('/api/' + path, url)
-                .then(response => dispatch(displayUpdatedURL("https://ae-urlshortener.herokuapp.com/url/" + response.data)),
+                .then(response => dispatch(displayUpdatedURL("http://localhost:3000/url/" + response.data)),
                     () => dispatch(UIError("You can only edit or delete custom shortened URLs")));
         }
     }

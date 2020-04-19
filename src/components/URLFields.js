@@ -3,7 +3,6 @@ import { Form, FormGroup, Input, Label, Button, UncontrolledTooltip } from 'reac
 import { createNewURL, clearSuccess, clearError, clearURL } from '../redux/actions';
 import { connect } from 'react-redux';
 import { BASE_URL } from '../constants';
-import { Link } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid';
 
 class URLFields extends Component {
@@ -54,7 +53,7 @@ class URLFields extends Component {
                     </FormGroup>
                     <Button type="submit" color="success" onClick={this.handleSubmit}>Create</Button>
                     <h5 className="mt-5">Your new Url:</h5>
-                    <Link>{this.props.shortenedUrl}</Link>
+                    <p>{this.props.shortenedUrl}</p>
                 </Form>
             </div>
         )

@@ -7,9 +7,9 @@ router.get('/url/:id', async (req, res) => {
     try {
         const url = await urlAccessor.findURL(req.params.id);
         if (url) {
-            return res.redirect(url.longUrl);
+            return res.send(url.longUrl);
         } else {
-            return res.redirect('https://ae-urlshortener.herokuapp.com/error');
+            return res.send('http://localhost:3000/error');
         }
     } catch (err) {
         res.status(500).json('Server error');

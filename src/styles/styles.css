@@ -6,3 +6,8 @@ body{
     width: 50%;
     margin: auto;
 }
+
+.error-text{
+    color: red;
+    text-align: center;
+}
