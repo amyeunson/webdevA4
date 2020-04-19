@@ -28,6 +28,10 @@ class URLFields extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        this.props.clearError();
+        this.props.clearSuccess();
+        this.props.clearURL();
+
         let strippedBrand = this.state.urlID.replace(/ /g, "")
         if (!strippedBrand) {
             let ID = uuidv4();

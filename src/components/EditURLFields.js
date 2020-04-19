@@ -29,6 +29,7 @@ class EditURLFields extends Component {
         event.preventDefault();
         this.props.clearError();
         this.props.clearSuccess();
+        this.props.clearURL();
         this.props.updateURL(window.location.pathname, { "longUrl": this.state.longURL, "custom": true });
     }
 
@@ -36,6 +37,7 @@ class EditURLFields extends Component {
         event.preventDefault();
         this.props.clearError();
         this.props.clearSuccess();
+        this.props.clearURL();
         this.props.deleteURL(window.location.pathname);
     }
 
@@ -53,6 +55,7 @@ class EditURLFields extends Component {
 
                             <Button type="submit" color="primary" className="" onClick={this.handleUpdate}>Update</Button>
                             <h5 className="mt-3">Your Url:</h5>
+                            {console.log(this.props.shortenedUrl)}
                             <p>{this.props.shortenedUrl}</p>
                         </Form>
                     </Col>

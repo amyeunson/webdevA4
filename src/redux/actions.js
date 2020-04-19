@@ -60,8 +60,7 @@ export function retrieveLongURL(id) {
     return function (dispatch) {
         return Axios.get('/url/' + id)
             .then((response) => dispatch(redirectURL(response)),
-                () => dispatch(UIError("No URL found")))
-            .then(() => dispatch(UISuccess()));
+                () => dispatch(UIError("No URL found")));
     }
 }
 
@@ -71,7 +70,10 @@ export function createNewURL(url) {
     } else {
         return function (dispatch) {
             return Axios.post('/api/' + url.urlID, url)
-                .then(response => dispatch(displayURL(response)),
+                .then(response => {
+                    dispatch(displayURL(response));
+                    dispatch(UISuccess())
+                },
                     () => dispatch(UIError("This URL alias is already in use")));
         }
     }
@@ -83,7 +85,10 @@ export function updateURL(path, url) {
     } else {
         return function (dispatch) {
             return Axios.put('/api/' + path, url)
-                .then(response => dispatch(displayUpdatedURL("http://localhost:3000/url/" + response.data)),
+                .then(response => {
+                    dispatch(displayUpdatedURL("http://localhost:3000/url/" + response.data));
+                    dispatch(UISuccess())
+                },
                     () => dispatch(UIError("You can only edit or delete custom shortened URLs")));
         }
     }
